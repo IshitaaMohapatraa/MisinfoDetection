@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Misinformation Detection Platform
 
 A modern, AI-powered multimodal misinformation detection and defense platform built with React.
@@ -159,3 +160,6 @@ All components use CSS modules for scoped styling. Global styles are in `src/ind
 
 MIT
 
+=======
+# MisinfoDetection
+>>>>>>> ff72a54ae1f5bf140d7eb4f2ae4622bb0d146144
