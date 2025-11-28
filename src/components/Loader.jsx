@@ -12,3 +12,4 @@ const Loader = ({ size = 'medium', message = 'Loading...' }) => {
 
 export default Loader;
 
+

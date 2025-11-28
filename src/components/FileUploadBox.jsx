@@ -68,3 +68,4 @@ const FileUploadBox = ({ onFileSelect, accept = 'image/*', multiple = false }) =
 
 export default FileUploadBox;
 
+

@@ -412,4 +412,66 @@ export const reportMisinformation = async (contentId, notes = '') => {
   }
 };
 
+/**
+ * Fact-check API
+ */
+export const factCheck = async (data) => {
+  try {
+    const response = await api.post('/fact-check', data);
+    return {
+      data: response.data,
+      status: response.status,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Fact-check API (alternative export name)
+ */
+export const factCheckAPI = {
+  analyze: async (payload) => {
+    try {
+      const response = await api.post('/fact-check', payload);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+};
+
+/**
+ * Game API - Get level questions
+ */
+export const getLevelQuestions = async () => {
+  try {
+    const response = await api.get('/game/level');
+    return {
+      data: response.data,
+      status: response.status,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Game API - Submit game answer
+ */
+export const submitGameAnswer = async (questionId, userAnswer) => {
+  try {
+    const response = await api.post('/game/submit', {
+      questionId,
+      userAnswer, // 'fact' or 'fake'
+    });
+    return {
+      data: response.data,
+      status: response.status,
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default api;

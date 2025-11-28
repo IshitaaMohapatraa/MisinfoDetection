@@ -43,3 +43,4 @@ const ScoreCircle = ({ score, size = 120, strokeWidth = 8 }) => {
 
 export default ScoreCircle;
 
+

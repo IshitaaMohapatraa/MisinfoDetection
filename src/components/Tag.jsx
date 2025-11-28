@@ -11,3 +11,4 @@ const Tag = ({ children, variant = 'default', size = 'medium' }) => {
 
 export default Tag;
 
+

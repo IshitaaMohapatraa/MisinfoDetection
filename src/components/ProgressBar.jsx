@@ -23,3 +23,4 @@ const ProgressBar = ({ value, max = 100, showLabel = false, variant = 'primary' 
 
 export default ProgressBar;
 
+

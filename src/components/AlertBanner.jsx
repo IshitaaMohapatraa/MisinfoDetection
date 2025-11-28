@@ -26,3 +26,4 @@ const AlertBanner = ({ type = 'info', message, onClose, children }) => {
 
 export default AlertBanner;
 
+

@@ -80,53 +80,85 @@ const Leaderboard = () => {
           <p>Loading leaderboard...</p>
         </div>
       ) : (
-        <Card className="leaderboard-card">
-          <div className="leaderboard-list">
-            {leaderboard.map((player, index) => {
-              const rank = index + 1;
-              return (
-                <div
-                  key={player.id}
-                  className={`leaderboard-item ${rank <= 3 ? `leaderboard-top-${rank}` : ''}`}
-                >
-                  <div className="leaderboard-rank">
-                    {rank <= 3 ? (
-                      <span className="leaderboard-rank-icon">
-                        {getBadgeIcon(player.badge)}
-                      </span>
-                    ) : (
-                      <span className="leaderboard-rank-number">#{rank}</span>
-                    )}
-                  </div>
-                  <div className="leaderboard-user">
-                    <div className="leaderboard-username">{player.username}</div>
-                    <div className="leaderboard-badges">
-                      <Tag variant={getRankColor(rank)} size="small">
-                        {getBadgeIcon(player.badge)} {player.badge}
-                      </Tag>
-                    </div>
-                  </div>
-                  <div className="leaderboard-stats">
-                    <div className="leaderboard-stat">
-                      <span className="leaderboard-stat-label">Score</span>
-                      <span className="leaderboard-stat-value">
-                        {player.score.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="leaderboard-stat">
-                      <span className="leaderboard-stat-label">Streak</span>
-                      <span className="leaderboard-stat-value">🔥 {player.streak}</span>
-                    </div>
-                    <div className="leaderboard-stat">
-                      <span className="leaderboard-stat-label">Accuracy</span>
-                      <span className="leaderboard-stat-value">{player.accuracy}%</span>
-                    </div>
-                  </div>
+        <>
+          {/* Top 3 Podium */}
+          {leaderboard.length >= 3 && (
+            <div className="leaderboard-podium">
+              {/* 2nd Place */}
+              <div className="leaderboard-podium-item leaderboard-podium-second">
+                <div className="leaderboard-podium-rank">🥈</div>
+                <div className="leaderboard-podium-avatar">
+                  <div className="leaderboard-podium-avatar-circle">2</div>
                 </div>
-              );
-            })}
-          </div>
-        </Card>
+                <div className="leaderboard-podium-name">{leaderboard[1].username}</div>
+                <div className="leaderboard-podium-score">{leaderboard[1].score.toLocaleString()}</div>
+              </div>
+
+              {/* 1st Place */}
+              <div className="leaderboard-podium-item leaderboard-podium-first">
+                <div className="leaderboard-podium-rank">🥇</div>
+                <div className="leaderboard-podium-avatar">
+                  <div className="leaderboard-podium-avatar-circle leaderboard-podium-avatar-gold">1</div>
+                </div>
+                <div className="leaderboard-podium-name">{leaderboard[0].username}</div>
+                <div className="leaderboard-podium-score">{leaderboard[0].score.toLocaleString()}</div>
+              </div>
+
+              {/* 3rd Place */}
+              <div className="leaderboard-podium-item leaderboard-podium-third">
+                <div className="leaderboard-podium-rank">🥉</div>
+                <div className="leaderboard-podium-avatar">
+                  <div className="leaderboard-podium-avatar-circle">3</div>
+                </div>
+                <div className="leaderboard-podium-name">{leaderboard[2].username}</div>
+                <div className="leaderboard-podium-score">{leaderboard[2].score.toLocaleString()}</div>
+              </div>
+            </div>
+          )}
+
+          {/* Rest of Leaderboard */}
+          <Card className="leaderboard-card">
+            <div className="leaderboard-list">
+              {leaderboard.slice(3).map((player, index) => {
+                const rank = index + 4; // Start from 4th place
+                return (
+                  <div
+                    key={player.id}
+                    className="leaderboard-item"
+                  >
+                    <div className="leaderboard-rank">
+                      <span className="leaderboard-rank-number">#{rank}</span>
+                    </div>
+                    <div className="leaderboard-user">
+                      <div className="leaderboard-username">{player.username}</div>
+                      <div className="leaderboard-badges">
+                        <Tag variant={getRankColor(rank)} size="small">
+                          {getBadgeIcon(player.badge)} {player.badge}
+                        </Tag>
+                      </div>
+                    </div>
+                    <div className="leaderboard-stats">
+                      <div className="leaderboard-stat">
+                        <span className="leaderboard-stat-label">Score</span>
+                        <span className="leaderboard-stat-value">
+                          {player.score.toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="leaderboard-stat">
+                        <span className="leaderboard-stat-label">Streak</span>
+                        <span className="leaderboard-stat-value">🔥 {player.streak}</span>
+                      </div>
+                      <div className="leaderboard-stat">
+                        <span className="leaderboard-stat-label">Accuracy</span>
+                        <span className="leaderboard-stat-value">{player.accuracy}%</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+        </>
       )}
 
       {/* Empty State */}
