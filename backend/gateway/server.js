@@ -16,6 +16,7 @@ const analyzeRoutes = require('./routes/analyze');
 const gameRoutes = require('./routes/game');
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
+const factCheckRoutes = require('./routes/factCheck');
 
 // Import middlewares
 const errorHandler = require('./middlewares/errorHandler');
@@ -91,6 +92,7 @@ app.use('/api/v1/analyze', analyzeRoutes);
 app.use('/api/v1/game', gameRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/fact-check', factCheckRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

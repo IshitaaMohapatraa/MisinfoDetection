@@ -56,3 +56,4 @@ const Alert = mongoose.model('Alert', alertSchema);
 
 module.exports = Alert;
 
+

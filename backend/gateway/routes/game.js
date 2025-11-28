@@ -1,6 +1,6 @@
 const express = require('express');
 const { optionalAuth } = require('../middlewares/authMock');
-const { getChallenges, submitAnswer, getLeaderboard } = require('../controllers/gameController');
+const { getChallenges, submitAnswer, getLeaderboard, getCurrentLevelQuestions, submitGameAnswer } = require('../controllers/gameController');
 const { getGameStats } = require('../controllers/statsController');
 
 const router = express.Router();
@@ -107,6 +107,55 @@ router.get('/leaderboard', optionalAuth, getLeaderboard);
  *         description: Game statistics
  */
 router.get('/stats', optionalAuth, getGameStats);
+
+/**
+ * @swagger
+ * /api/v1/game/level:
+ *   get:
+ *     summary: Get current level questions for Fact or Fake game
+ *     tags: [Game]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of questions for current level
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/level', optionalAuth, getCurrentLevelQuestions);
+
+/**
+ * @swagger
+ * /api/v1/game/submit:
+ *   post:
+ *     summary: Submit answer for Fact or Fake game
+ *     tags: [Game]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - questionId
+ *               - userAnswer
+ *             properties:
+ *               questionId:
+ *                 type: string
+ *               userAnswer:
+ *                 type: string
+ *                 enum: [fact, fake]
+ *     responses:
+ *       200:
+ *         description: Answer result with XP and level info
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
+router.post('/submit', optionalAuth, submitGameAnswer);
 
 module.exports = router;
 

@@ -212,3 +212,4 @@ def calculate_credibility_score(results):
     else:
         return 50  # Default neutral score
 
+

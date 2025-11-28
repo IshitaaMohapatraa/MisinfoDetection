@@ -50,3 +50,4 @@ def extract_text_from_image(image_path: str) -> str:
         print(f'Warning: OCR extraction failed: {str(e)}')
         return ''
 
+

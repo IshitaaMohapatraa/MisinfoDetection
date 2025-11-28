@@ -124,3 +124,4 @@ def analyze_text_content(text: str) -> Dict:
         'reasons': reasons[:5],  # Top 5 reasons
     }
 
+

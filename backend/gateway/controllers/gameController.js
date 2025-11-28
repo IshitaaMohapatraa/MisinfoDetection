@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const challengeService = require('../db/services/challengeService');
 const leaderboardService = require('../db/services/leaderboardService');
 const userService = require('../db/services/userService');
+const gameService = require('../db/services/gameService');
 
 /**
  * Get game challenges
@@ -150,9 +151,99 @@ async function getLeaderboard(req, res, next) {
   }
 }
 
+/**
+ * GET /api/v1/game/level
+ * Get current level questions for "Fact or Fake?" game
+ */
+async function getCurrentLevelQuestions(req, res, next) {
+  try {
+    const userId = req.user?.userId || req.body.userId;
+    
+    if (!userId) {
+      return res.status(401).json({
+        error: { status: 401, message: 'Unauthorized', details: 'User authentication required' },
+      });
+    }
+
+    // Get user's current level
+    const user = await userService.getUserById(userId);
+    if (!user) {
+      return res.status(404).json({
+        error: { status: 404, message: 'User not found' },
+      });
+    }
+
+    const currentLevel = user.gameLevel || 1;
+
+    // Get questions for this level
+    const questions = await gameService.getLevelQuestions(userId, currentLevel);
+
+    res.json({
+      level: currentLevel,
+      questions,
+      count: questions.length,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * POST /api/v1/game/submit
+ * Submit answer for "Fact or Fake?" game
+ */
+async function submitGameAnswer(req, res, next) {
+  try {
+    const { questionId, userAnswer } = req.body;
+    const userId = req.user?.userId || req.body.userId;
+
+    if (!questionId || !userAnswer) {
+      return res.status(400).json({
+        error: { status: 400, message: 'Invalid input', details: 'questionId and userAnswer are required' },
+      });
+    }
+
+    if (!['fact', 'fake'].includes(userAnswer.toLowerCase())) {
+      return res.status(400).json({
+        error: { status: 400, message: 'Invalid input', details: 'userAnswer must be "fact" or "fake"' },
+      });
+    }
+
+    if (!userId) {
+      return res.status(401).json({
+        error: { status: 401, message: 'Unauthorized', details: 'User authentication required' },
+      });
+    }
+
+    // Submit answer
+    const result = await gameService.submitAnswer(userId, questionId, userAnswer.toLowerCase());
+
+    res.json(result);
+  } catch (error) {
+    if (error.message === 'Question not found') {
+      return res.status(404).json({
+        error: { status: 404, message: 'Question not found' },
+      });
+    }
+    if (error.message === 'Question already answered') {
+      return res.status(400).json({
+        error: { status: 400, message: 'Question already answered' },
+      });
+    }
+    if (error.message === 'User not found') {
+      return res.status(404).json({
+        error: { status: 404, message: 'User not found' },
+      });
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   getChallenges,
   submitAnswer,
   getLeaderboard,
+  getCurrentLevelQuestions,
+  submitGameAnswer,
 };
 

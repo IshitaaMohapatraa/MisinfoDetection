@@ -35,6 +35,40 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    // Game-specific fields for "Fact or Fake?" game
+    gameXp: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    gameLevel: {
+      type: Number,
+      default: 1,
+      min: 1,
+    },
+    gameQuestionsAnswered: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    gameCorrectAnswers: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    gameRewards: [
+      {
+        id: String,
+        name: String,
+        description: String,
+        levelEarned: Number,
+        xpEarned: Number,
+        redeemedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -65,4 +99,5 @@ userSchema.set('toObject', { virtuals: true });
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
 

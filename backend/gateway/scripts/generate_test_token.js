@@ -28,3 +28,4 @@ console.log('\nExample curl:');
 console.log(`  curl -H "Authorization: Bearer ${token}" http://localhost:3000/api/v1/game/challenges`);
 console.log('');
 
+

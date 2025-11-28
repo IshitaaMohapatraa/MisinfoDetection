@@ -208,3 +208,4 @@ def perform_reverse_search(image_path: str) -> List[Dict]:
     except Exception:
         return []
 
+
